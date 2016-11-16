@@ -15,3 +15,6 @@ function Player()
 	</div>`;
 	this.fromHTML(this.layout);
 }
+
+//Inherits from JundarEl
+Player.prototype = new JundarEl();
