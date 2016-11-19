@@ -72,6 +72,97 @@ JundarEl.prototype.buildElement = function(element){
 };
 
 /**
+ * Gets or sets the innerHTML of an element.
+ * @param html The string to set the innerHTML to if passed
+ */
+JundarEl.prototype.innerHTML = function(html){
+	if(html != undefined)
+		this.getElement().innerHTML = html;
+	else
+		return this.getElement().innerHTML;
+};
+
+/**
+ * Appends a child JundarElement.
+ */
+JundarEl.prototype.appendChild = function(child){
+	this.children.push(child);
+	this.element.appendChild(child.getElement());
+};
+
+/**
+ * Removes a child based on index.
+ * @param index The index of the child to remove
+ */
+JundarEl.prototype.removeChild = function(index){
+	//Account for negative indexes
+	if(index < 0)
+		index = this.children.length - index;
+
+	//Only remove the element if we're in the bounds of the array
+	if(index < this.children.length && index >= 0)
+	{
+		//Remove DOM element
+		let child = this.children[index].getElement();
+		child.parentNode.removeChild(child);
+
+		//Remove child object
+		this.children.splice(index, 1);
+	}
+};
+
+/**
+ * Insert a child object at any index.
+ * @param index The position at which to insert the item
+ * @param el The Jundar Element to insert
+ */
+JundarEl.prototype.insertChild = function(index, el){
+	//If empty, append
+	if(this.children.length == 0)
+		this.appendChild(el);
+	else
+	{
+		//Get the correct index if negative
+		if(index < 0)
+			index = this.children.length - index;
+		
+		//If the index is still negative, set it to 0
+		if(index < 0)
+			index = 0;
+		
+		//Find element to insert before
+		let after = this.children[index].getElement();
+		after.parentNode.insertBefore(el.getElement(), after);
+
+		//Add the object to array of children
+		this.children.splice(index, 0, el);
+	}
+};
+
+/**
+ * Empties an element (removes all children).
+ */
+JundarEl.prototype.empty = function(){
+	//Remove children from DOM
+	this.element.innerHTML = "";
+	
+	//Remove child objects
+	this.children = [];
+};
+
+/**
+ * Removes the element from the DOM.
+ */
+JundarEl.prototype.remove = function(){
+	//Call the destructor
+	this.destructor();
+
+	//Remove the element and objects
+	this.element.parentNode.removeChild(this.element);
+	this.children = [];
+};
+
+/**
  * Gets the underlying DOM element.
  */
 JundarEl.prototype.getElement = function(){
@@ -79,8 +170,16 @@ JundarEl.prototype.getElement = function(){
 };
 
 /**
- * Gets the element's children.
+ * Gets the element's children. (Not DOM elements)
  */
 JundarEl.prototype.getChildren = function(){
 	return this.children;
+};
+
+/**
+ * The destructor.
+ * This is called when the element is removed
+ */
+JundarEl.prototype.destructor = function(){
+
 };
