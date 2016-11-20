@@ -45,6 +45,30 @@ JundarEl.prototype.buildElement = function(element){
 		let className = element.getAttribute("name");
 		jundarElement = new window[className]();
 
+		//Assign attributes if any were supplied
+		let attributes = element.attributes;
+		for(let i=0; i<attributes.length; i++)
+		{
+			let attr = attributes[i];
+
+			//Ignore the special "name" and "prop" attributes
+			if(attr.nodeName == "name" || attr.nodeName == "class")
+				continue;
+			
+			//Set the property's value or HTML
+			if(jundarElement[attr.nodeName] instanceof JundarEl)
+			{
+				//Set the HTML of the Jundar Element
+				jundarElement[attr.nodeName].html(attr.nodeValue);
+			}
+
+			else
+			{
+				//Set the value
+				jundarElement[attr.nodeName] = attr.nodeValue;
+			}
+		}
+
 		//Replace the Class node with the generated DOM element
 		element.parentNode.replaceChild(jundarElement.getElement(), element);
 	}
@@ -75,7 +99,7 @@ JundarEl.prototype.buildElement = function(element){
  * Gets or sets the innerHTML of an element.
  * @param html The string to set the innerHTML to if passed
  */
-JundarEl.prototype.innerHTML = function(html){
+JundarEl.prototype.html = function(html){
 	if(html != undefined)
 		this.getElement().innerHTML = html;
 	else
@@ -144,7 +168,7 @@ JundarEl.prototype.insertChild = function(index, el){
  */
 JundarEl.prototype.empty = function(){
 	//Remove children from DOM
-	this.element.innerHTML = "";
+	this.html("");
 	
 	//Remove child objects
 	this.children = [];
@@ -154,9 +178,6 @@ JundarEl.prototype.empty = function(){
  * Removes the element from the DOM.
  */
 JundarEl.prototype.remove = function(){
-	//Call the destructor
-	this.destructor();
-
 	//Remove the element and objects
 	this.element.parentNode.removeChild(this.element);
 	this.children = [];
@@ -174,12 +195,4 @@ JundarEl.prototype.getElement = function(){
  */
 JundarEl.prototype.getChildren = function(){
 	return this.children;
-};
-
-/**
- * The destructor.
- * This is called when the element is removed
- */
-JundarEl.prototype.destructor = function(){
-
 };
