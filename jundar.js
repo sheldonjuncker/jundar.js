@@ -23,7 +23,7 @@ JundarEl.prototype.fromHTML = function(html){
 	let element = div.firstChild;
 
 	//Built the JundarElement representation
-	let jundarElement= this.buildElement(element);
+	let jundarElement = this.buildElement(element);
 
 	//Assign DOM element and children
 	this.element = jundarElement.element;
@@ -46,28 +46,21 @@ JundarEl.prototype.buildElement = function(element){
 		jundarElement = new window[className]();
 
 		//Assign attributes if any were supplied
-		let attributes = element.attributes;
-		for(let i=0; i<attributes.length; i++)
+		let props = {};
+		for(let i=0; i<element.attributes.length; i++)
 		{
-			let attr = attributes[i];
+			let attr = element.attributes[i];
 
 			//Ignore the special "name" and "prop" attributes
-			if(attr.nodeName == "name" || attr.nodeName == "class")
+			if(attr.nodeName == "name" || attr.nodeName == "prop")
 				continue;
 			
-			//Set the property's value or HTML
-			if(jundarElement[attr.nodeName] instanceof JundarEl)
-			{
-				//Set the HTML of the Jundar Element
-				jundarElement[attr.nodeName].html(attr.nodeValue);
-			}
-
-			else
-			{
-				//Set the value
-				jundarElement[attr.nodeName] = attr.nodeValue;
-			}
+			//Assign to property map
+			props[attr.nodeName] = attr.nodeValue;
 		}
+
+		//Initialize object with properties
+		jundarElement.init(props);
 
 		//Replace the Class node with the generated DOM element
 		element.parentNode.replaceChild(jundarElement.getElement(), element);
@@ -96,6 +89,24 @@ JundarEl.prototype.buildElement = function(element){
 };
 
 /**
+ * Initializes the object's properties.
+ * @param props A map of property names to values
+ */
+JundarEl.prototype.init = function(props){
+	//Assign all properties
+	for(let prop in props)
+	{
+		//If it is a Jundar Element, assign to the element's innerHTML
+		if(this[prop] instanceof JundarEl)
+			this[prop].html(props[prop]);
+
+		//Assign it as a property, if the property is not a Jundar Element
+		else
+			this[prop] = props[prop];
+	}
+};
+
+/**
  * Gets or sets the innerHTML of an element.
  * @param html The string to set the innerHTML to if passed
  */
@@ -104,6 +115,48 @@ JundarEl.prototype.html = function(html){
 		this.getElement().innerHTML = html;
 	else
 		return this.getElement().innerHTML;
+};
+
+/**
+ * Gets or sets the property of the object's DOM an element.
+ * @param property The string name of the property, or an array of strings for each successive property, eg. style.display would be ['style', 'display']
+ * @param value The optional value of the property if setting the value
+ * If a value argument is passed, the value will be set;
+ * otherwise the value of the property will be returned
+ */
+JundarEl.prototype.attr = function(name, value){
+	//The final object
+	let finalObj = this.element;
+
+	//The final property
+	let finalProp = name;
+
+	//If name is in array, we have to compute the object
+	if(name instanceof Array)
+	{
+		finalProp = name.pop();
+
+		for(let i=0; i<name.length; i++)
+		{
+			//Get the attribute's name
+			let attr = name[i];
+
+			//Set the object to it's attribute
+			finalObj = finalObj[attr];
+		}
+	}
+
+	//Set
+	if(value != undefined)
+	{
+		finalObj[finalProp] = value;
+	}
+
+	//Get
+	else
+	{
+		return finalObj[finalProp];
+	}
 };
 
 /**
@@ -180,6 +233,7 @@ JundarEl.prototype.empty = function(){
 JundarEl.prototype.remove = function(){
 	//Remove the element and objects
 	this.element.parentNode.removeChild(this.element);
+	this.element = null;
 	this.children = [];
 };
 

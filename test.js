@@ -33,7 +33,7 @@ function User(name, username)
 }
 
 //Inherits from JundarEl
-User.prototype = new JundarEl();
+User.prototype = Object.create(JundarEl.prototype);
 
 
 /**
@@ -64,10 +64,9 @@ function UserLocation(city, state)
 }
 
 //Inherits from JundarEl
-UserLocation.prototype = new JundarEl();
+UserLocation.prototype = Object.create(JundarEl.prototype);
 
 //Create a user and add him to the page
 let sheldon = new User("Sheldon Juncker", "jundar");
 
 document.body.append(sheldon.getElement());
-
