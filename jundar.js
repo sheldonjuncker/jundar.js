@@ -1,13 +1,26 @@
 /**
- * The base class for all DOM Element Objects.
+ * The base class for all Jundar Elements.
+ * @param element The object's DOM element or a string with the HTML representation of the object
+ * @param children An optional array of the object's children Jundar Elements
  */
 function JundarEl(element, children)
 {
+	/*
+	* Note that we always assign values to element and children
+	* to make it clear that Jundar Elements have these properties.
+	*/
+
 	//The underlying DOM element
 	this.element = element || null;
 
 	//An array of JundarEl children
 	this.children = children || [];
+
+	//If element is a string, we will initialize the object from that string
+	if(element instanceof String || typeof element === "string")
+	{
+		this.fromHTML(element);
+	}
 }
 
 /**
@@ -147,7 +160,7 @@ JundarEl.prototype.attr = function(name, value){
 	}
 
 	//Set
-	if(value != undefined)
+	if(value !== undefined)
 	{
 		finalObj[finalProp] = value;
 	}

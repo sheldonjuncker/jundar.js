@@ -67,6 +67,8 @@ function UserLocation(city, state)
 UserLocation.prototype = Object.create(JundarEl.prototype);
 
 //Create a user and add him to the page
-let sheldon = new User("Sheldon Juncker", "jundar");
+//let sheldon = new User("Sheldon Juncker", "jundar");
+
+let sheldon = new JundarEl("<p>Hey!</p>");
 
 document.body.append(sheldon.getElement());
