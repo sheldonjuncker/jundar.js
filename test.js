@@ -36,7 +36,7 @@ function CoolPerson(props)
     //The cat component
     this.cat = null;
 
-    //Build the cat
+    //Build the person
     this.build();
 }
 
