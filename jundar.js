@@ -54,11 +54,7 @@ JundarEl.prototype.buildElement = function(element){
 	//Generate a class component from a <Class> element
 	if(element.tagName == "CLASS")
 	{
-		//Create the class's object
-		let className = element.getAttribute("name");
-		jundarElement = new window[className]();
-
-		//Assign attributes if any were supplied
+		//Get properties from HTML
 		let props = {};
 		for(let i=0; i<element.attributes.length; i++)
 		{
@@ -72,8 +68,9 @@ JundarEl.prototype.buildElement = function(element){
 			props[attr.nodeName] = attr.nodeValue;
 		}
 
-		//Initialize object with properties
-		jundarElement.init(props);
+		//Create the class's object
+		let className = element.getAttribute("name");
+		jundarElement = new window[className](props);
 
 		//Replace the Class node with the generated DOM element
 		element.parentNode.replaceChild(jundarElement.getElement(), element);
@@ -99,24 +96,6 @@ JundarEl.prototype.buildElement = function(element){
 	}
 
 	return jundarElement;
-};
-
-/**
- * Initializes the object's properties.
- * @param props A map of property names to values
- */
-JundarEl.prototype.init = function(props){
-	//Assign all properties
-	for(let prop in props)
-	{
-		//If it is a Jundar Element, assign to the element's innerHTML
-		if(this[prop] instanceof JundarEl)
-			this[prop].html(props[prop]);
-
-		//Assign it as a property, if the property is not a Jundar Element
-		else
-			this[prop] = props[prop];
-	}
 };
 
 /**

@@ -1,7 +1,7 @@
 /**
  * The user class component.
  */
-function User(name, username)
+function User(props)
 {
 	///The user's name
 	this.name = null;
@@ -16,20 +16,16 @@ function User(name, username)
 	this.layout = 
 	`<div class="user">
 		<span>
-			I'm <strong prop="name"></strong>
+			I'm <strong prop="name">${props.name}</strong>
 			aka
-			<em prop="username"></em>.
+			<em prop="username">${props.username}</em>.
 		</span>
 
 		<Class name="UserLocation" prop="location" city="Toccoa" state="GA" />
 	 </div>`;
 
-	 //Build the User
+	 //Build the User object
 	this.fromHTML(this.layout);
-
-	//Assign properties
-	this.name.html(name);
-	this.username.html(username);
 }
 
 //Inherits from JundarEl
@@ -39,7 +35,7 @@ User.prototype = Object.create(JundarEl.prototype);
 /**
  * The user location class component.
  */
-function UserLocation(city, state)
+function UserLocation(props)
 {
 	///The user's city
 	this.city = null;
@@ -51,22 +47,18 @@ function UserLocation(city, state)
 	this.layout = 
 	`<span class="user-location">
 		I live in
-		<span prop="city"></span>,
-		<span prop="state"></span>
+		<span prop="city">${props.city}</span>,
+		<span prop="state">${props.state}</span>
 	 </span>`;
 
-	 //Build the User
+	 //Build the UserLocation object
 	this.fromHTML(this.layout);
-
-	//Assign properties
-	this.city.html(city);
-	this.state.html(state);
 }
 
 //Inherits from JundarEl
 UserLocation.prototype = Object.create(JundarEl.prototype);
 
 //Create a user and add him to the page
-let sheldon = new User("Sheldon Juncker", "jundar");
+let sheldon = new User({name: "Sheldon Juncker", username: "jundar"});
 
 document.body.append(sheldon.getElement());
