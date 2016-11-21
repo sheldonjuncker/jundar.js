@@ -69,7 +69,7 @@ JundarEl.prototype.buildElement = function(element){
 	jundarElement.element = element;
 
 	//Generate a class component from a <Class> element
-	if(element.tagName == "CLASS")
+	if(element.tagName == "COMPONENT")
 	{
 		//Get properties from HTML
 		let props = {};
@@ -78,7 +78,7 @@ JundarEl.prototype.buildElement = function(element){
 			let attr = element.attributes[i];
 
 			//Ignore the special "name" and "prop" attributes
-			if(attr.nodeName == "name" || attr.nodeName == "prop")
+			if(attr.nodeName == "class" || attr.nodeName == "prop")
 				continue;
 			
 			//Assign to property map
@@ -86,8 +86,15 @@ JundarEl.prototype.buildElement = function(element){
 		}
 
 		//Create the class's object
-		let className = element.getAttribute("name");
-		jundarElement = new window[className](props);
+		let className = element.getAttribute("class");
+
+		//If className begins with a ':' then it's a property component
+		if(className[0] == ':')
+			jundarElement = this.props[className.substring(1)];
+
+		//Otherwise it's the name of a class
+		else
+			jundarElement = new window[className](props);
 
 		//Replace the Class node with the generated DOM element
 		element.parentNode.replaceChild(jundarElement.getElement(), element);

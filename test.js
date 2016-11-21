@@ -1,85 +1,61 @@
-/**
- * The user class component.
- */
-function User(props)
+//The cat component
+function Cat(props)
 {
-	///Object properties
-	this.props = props;
+    //Assign properties
+    this.props = props;
 
-	///The user's name
-	this.name = null;
+	//The cat's name
+	this.name = name;
 
-	///The user's username
-	this.username = null;
-
-	///The user's location
-	this.location = null;
-
-	 //Builds the user object and DOM elements
-	this.build();
+    //Build the cat object and DOM elements
+    this.build();
 }
 
 //Inherits from JundarEl
-User.prototype = Object.create(JundarEl.prototype);
+Cat.prototype = Object.create(JundarEl.prototype);
 
-/**
- * Gets the HTML string layout of a user's location.
- */
-User.prototype.getLayout = function(){
-	return(
-		`<div class="user">
-			<span>
-				I'm <strong prop="name">${this.props.name}</strong>
-				aka
-				<em prop="username">${this.props.username}</em>.
-			</span>
-
-			<Class name="UserLocation" prop="location" city="Toccoa" state="GA" />
-		</div>`
-	);
-};
-
-/**
- * The user location class component.
- */
-function UserLocation(props)
-{
-	//Object properties
-	this.props = props;
-
-	///The user's city
-	this.city = null;
-
-	///The user's state
-	this.state = null;
-
-	//Build the object
-	this.build();
-}
-
-//Inherits from JundarEl
-UserLocation.prototype = Object.create(JundarEl.prototype);
-
-/**
- * Gets the HTML string layout of a user's location.
- */
-UserLocation.prototype.getLayout = function(){
-	return(
-		`<span class="user-location">
-			I live in
-			<span prop="city">${this.props.city}</span>,
-			<span prop="state">${this.props.state}</span>
+//Provides the HTML layout of a cat
+Cat.prototype.getLayout = function(){
+    return(
+        `<span class="cat">
+			I'm a cat. My name is 
+			<span prop="name">${this.props.name}</span>.
 		</span>`
-	);
+    );
 };
 
-/**
- * Does some wanky event stuff.
- */
-UserLocation.prototype.events = function(){
-	
+//The person component
+function CoolPerson(props)
+{
+	//Assign properties
+    this.props = props;
+
+	//The person's name
+    this.name = null;
+
+	//The cat component
+    this.cat = null;
+
+	//Build the cat
+	this.build();
+}
+
+//Inherits from JundarEl
+CoolPerson.prototype = Object.create(JundarEl.prototype);
+
+//Gets the layout of a person
+CoolPerson.prototype.getLayout = function(){
+    return(
+        `<span class="person">
+            I'm a person. My name is 
+            <span prop="name">${this.props.name}</span>.
+            Since I'm cool, I have a cat. This is my cat:<br>
+			<Component class=":cat" prop="cat" />
+        </span>`
+    );
 };
 
-//Create a user and add him to the page
-let user = new User({name: "Sheldon Juncker", username: "jundar"});
-document.body.append(user.getElement());
+//Render a new person and their cat
+let mrWhiskers = new Cat({name: "Mr. Whiskers"});
+let person = new CoolPerson({name: "Bob", cat: mrWhiskers});
+document.body.appendChild(person.getElement());
