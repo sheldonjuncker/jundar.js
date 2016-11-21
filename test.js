@@ -53,7 +53,7 @@ function UserLocation(props)
 	///The user's state
 	this.state = null;
 
-	 //Builds the object and DOM elements from it's layout
+	//Build the object
 	this.build();
 }
 
@@ -73,8 +73,14 @@ UserLocation.prototype.getLayout = function(){
 	);
 };
 
+/**
+ * Does some wanky event stuff.
+ */
+UserLocation.prototype.events = function(){
+	
+};
+
 //Create a user and add him to the page
 let sheldon = new User({name: "Sheldon Juncker", username: "jundar"});
-sheldon.name.html("Bob");
 
 document.body.append(sheldon.getElement());

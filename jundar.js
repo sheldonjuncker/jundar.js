@@ -1,7 +1,5 @@
 /**
  * The base class for all Jundar Elements.
- * @param element The object's DOM element or a string with the HTML representation of the object
- * @param children An optional array of the object's children Jundar Elements
  */
 function JundarEl(props, layout)
 {
@@ -18,12 +16,6 @@ function JundarEl(props, layout)
 
 	//An array of JundarEl children
 	this.children = [];
-
-	//If layout is a string, we will initialize the object from that string
-	if(layout instanceof String || typeof layout === "string")
-	{
-		this.fromHTML();
-	}
 }
 
 /**
@@ -51,6 +43,9 @@ JundarEl.prototype.build = function(){
 	//Assign element and children
 	this.element = jundarElement.getElement();
 	this.children = jundarElement.getChildren();
+
+	//Setup event handlers
+	this.events();
 };
 
 /**
@@ -107,6 +102,13 @@ JundarEl.prototype.buildElement = function(element){
 	}
 
 	return jundarElement;
+};
+
+/**
+ * Sets up event handlers for the object.
+ */
+JundarEl.prototype.events = function(){
+
 };
 
 /**
