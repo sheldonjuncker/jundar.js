@@ -27,23 +27,30 @@ function JundarEl(props, layout)
 }
 
 /**
- * Uses an HTML template to setup the object.
- * @param html An HTML string
+ * Get's the DOM element from the object's layout.
  */
-JundarEl.prototype.fromHTML = function(){
+JundarEl.prototype.getLayoutElement = function(){
 	//Create the element inside of a div
 	let div = document.createElement("div");
 	div.innerHTML = this.getLayout();
 
-	//Extract the element
-	let element = div.firstChild;
+	//Extract and return the element
+	return div.firstChild;
+};
 
-	//Built the JundarElement representation
-	let jundarElement = this.buildElement(element);
+/**
+ * Builds a Jundar Element from it's layout.
+ */
+JundarEl.prototype.build = function(){
+	//Get the layout element
+	let layout = this.getLayoutElement();
 
-	//Assign DOM element and children
-	this.element = jundarElement.element;
-	this.children = jundarElement.children;
+	//Get the Jundar Element for the layout
+	let jundarElement = this.buildElement(layout);
+
+	//Assign element and children
+	this.element = jundarElement.getElement();
+	this.children = jundarElement.getChildren();
 };
 
 /**

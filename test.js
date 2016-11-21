@@ -15,8 +15,8 @@ function User(props)
 	///The user's location
 	this.location = null;
 
-	 //Build the User object
-	this.fromHTML();
+	 //Builds the user object and DOM elements
+	this.build();
 }
 
 //Inherits from JundarEl
@@ -53,8 +53,8 @@ function UserLocation(props)
 	///The user's state
 	this.state = null;
 
-	 //Build the UserLocation object
-	this.fromHTML();
+	 //Builds the object and DOM elements from it's layout
+	this.build();
 }
 
 //Inherits from JundarEl
@@ -75,5 +75,6 @@ UserLocation.prototype.getLayout = function(){
 
 //Create a user and add him to the page
 let sheldon = new User({name: "Sheldon Juncker", username: "jundar"});
+sheldon.name.html("Bob");
 
 document.body.append(sheldon.getElement());
