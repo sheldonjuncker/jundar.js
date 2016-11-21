@@ -110,48 +110,6 @@ JundarEl.prototype.html = function(html){
 };
 
 /**
- * Gets or sets the property of the object's DOM an element.
- * @param property The string name of the property, or an array of strings for each successive property, eg. style.display would be ['style', 'display']
- * @param value The optional value of the property if setting the value
- * If a value argument is passed, the value will be set;
- * otherwise the value of the property will be returned
- */
-JundarEl.prototype.attr = function(name, value){
-	//The final object
-	let finalObj = this.element;
-
-	//The final property
-	let finalProp = name;
-
-	//If name is in array, we have to compute the object
-	if(name instanceof Array)
-	{
-		finalProp = name.pop();
-
-		for(let i=0; i<name.length; i++)
-		{
-			//Get the attribute's name
-			let attr = name[i];
-
-			//Set the object to it's attribute
-			finalObj = finalObj[attr];
-		}
-	}
-
-	//Set
-	if(value !== undefined)
-	{
-		finalObj[finalProp] = value;
-	}
-
-	//Get
-	else
-	{
-		return finalObj[finalProp];
-	}
-};
-
-/**
  * Assigns one Jundar Element to another, replacing the underlying DOM elements.
  * @param el The Jundar Element to replace the current one with
  */
