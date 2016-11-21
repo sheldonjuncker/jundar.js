@@ -21,7 +21,7 @@ function User(name, username)
 			<em prop="username"></em>.
 		</span>
 
-		<Class name="UserLocation" prop="location" city="Toccoa" state="GA">
+		<Class name="UserLocation" prop="location" city="Toccoa" state="GA" />
 	 </div>`;
 
 	 //Build the User
@@ -41,10 +41,10 @@ User.prototype = Object.create(JundarEl.prototype);
  */
 function UserLocation(city, state)
 {
-	///The user's city (DOM element)
+	///The user's city
 	this.city = null;
 
-	///The user's state (DOM element)
+	///The user's state
 	this.state = null;
 
 	///The HTML layout of a user's location
@@ -67,8 +67,6 @@ function UserLocation(city, state)
 UserLocation.prototype = Object.create(JundarEl.prototype);
 
 //Create a user and add him to the page
-//let sheldon = new User("Sheldon Juncker", "jundar");
-
-let sheldon = new JundarEl("<p>Hey!</p>");
+let sheldon = new User("Sheldon Juncker", "jundar");
 
 document.body.append(sheldon.getElement());

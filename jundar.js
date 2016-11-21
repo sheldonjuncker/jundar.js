@@ -173,6 +173,27 @@ JundarEl.prototype.attr = function(name, value){
 };
 
 /**
+ * Assigns one Jundar Element to another, replacing the underlying DOM elements.
+ * @param el The Jundar Element to replace the current one with
+ */
+JundarEl.prototype.assign = function(el){
+	//Get element to replace
+	let toReplace = this.element;
+
+	//Insert new element before
+	toReplace.parentNode.insertBefore(el.element, toReplace);
+
+	//Remove original element
+	toReplace.parentNode.removeChild(toReplace);
+
+	//Assign all properties of el to this
+	for(let prop in el)
+	{
+		this[prop] = el[prop];
+	}
+};
+
+/**
  * Appends a child JundarElement.
  */
 JundarEl.prototype.appendChild = function(child){
@@ -187,7 +208,9 @@ JundarEl.prototype.appendChild = function(child){
 JundarEl.prototype.removeChild = function(index){
 	//Account for negative indexes
 	if(index < 0)
-		index = this.children.length - index;
+		index = this.children.length + index;
+
+	console.log(index);
 
 	//Only remove the element if we're in the bounds of the array
 	if(index < this.children.length && index >= 0)
@@ -214,7 +237,7 @@ JundarEl.prototype.insertChild = function(index, el){
 	{
 		//Get the correct index if negative
 		if(index < 0)
-			index = this.children.length - index;
+			index = this.children.length + index;
 		
 		//If the index is still negative, set it to 0
 		if(index < 0)
