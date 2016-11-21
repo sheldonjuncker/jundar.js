@@ -3,20 +3,31 @@
  */
 function JundarEl(props, layout)
 {
-	/*
-	* Note that we always assign values to element and children
-	* to make it clear that Jundar Elements have these properties.
-	*/
-
-	//Object's properties
+	///Object's properties
 	this.props = props;
 
-	//The underlying DOM element
+	///The underlying DOM element
 	this.element = null;
 
-	//An array of JundarEl children
+	///An array of JundarEl children
 	this.children = [];
+
+	///The element's layout
+	this.layout = layout || "<div></div>";
+
+	//If layout is a string, build the element using that layout
+	if(layout instanceof String || typeof layout === "string")
+	{
+		this.build();
+	}
 }
+
+/**
+ * Gets the layout of the object.
+ */
+JundarEl.prototype.getLayout = function(){
+	return this.layout;
+};
 
 /**
  * Get's the DOM element from the object's layout.

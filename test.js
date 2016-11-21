@@ -81,6 +81,5 @@ UserLocation.prototype.events = function(){
 };
 
 //Create a user and add him to the page
-let sheldon = new User({name: "Sheldon Juncker", username: "jundar"});
-
-document.body.append(sheldon.getElement());
+let user = new User({name: "Sheldon Juncker", username: "jundar"});
+document.body.append(user.getElement());
