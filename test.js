@@ -27,17 +27,17 @@ Cat.prototype.getLayout = function(){
 //The person component
 function CoolPerson(props)
 {
-	//Assign properties
+    //Assign properties
     this.props = props;
 
-	//The person's name
+    //The person's name
     this.name = null;
 
-	//The cat component
+    //The cat component
     this.cat = null;
 
-	//Build the cat
-	this.build();
+    //Build the cat
+    this.build();
 }
 
 //Inherits from JundarEl
@@ -50,7 +50,7 @@ CoolPerson.prototype.getLayout = function(){
             I'm a person. My name is 
             <span prop="name">${this.props.name}</span>.
             Since I'm cool, I have a cat. This is my cat:<br>
-			<Component class=":cat" prop="cat" />
+            <Component class=":cat" prop="cat" />
         </span>`
     );
 };
