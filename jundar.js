@@ -3,23 +3,26 @@
  * @param element The object's DOM element or a string with the HTML representation of the object
  * @param children An optional array of the object's children Jundar Elements
  */
-function JundarEl(element, children)
+function JundarEl(props, layout)
 {
 	/*
 	* Note that we always assign values to element and children
 	* to make it clear that Jundar Elements have these properties.
 	*/
 
+	//Object's properties
+	this.props = props;
+
 	//The underlying DOM element
-	this.element = element || null;
+	this.element = null;
 
 	//An array of JundarEl children
-	this.children = children || [];
+	this.children = [];
 
-	//If element is a string, we will initialize the object from that string
-	if(element instanceof String || typeof element === "string")
+	//If layout is a string, we will initialize the object from that string
+	if(layout instanceof String || typeof layout === "string")
 	{
-		this.fromHTML(element);
+		this.fromHTML();
 	}
 }
 
@@ -27,10 +30,10 @@ function JundarEl(element, children)
  * Uses an HTML template to setup the object.
  * @param html An HTML string
  */
-JundarEl.prototype.fromHTML = function(html){
+JundarEl.prototype.fromHTML = function(){
 	//Create the element inside of a div
 	let div = document.createElement("div");
-	div.innerHTML = html;
+	div.innerHTML = this.getLayout();
 
 	//Extract the element
 	let element = div.firstChild;
@@ -49,7 +52,8 @@ JundarEl.prototype.fromHTML = function(html){
  */
 JundarEl.prototype.buildElement = function(element){
 	//The JundarElement
-	let jundarElement = new JundarEl(element);
+	let jundarElement = new JundarEl({});
+	jundarElement.element = element;
 
 	//Generate a class component from a <Class> element
 	if(element.tagName == "CLASS")
